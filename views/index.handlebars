@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saber Webshop</title>
+  <style>
+
+    body, html {
+      scroll-behavior: smooth;
+      height: 100%;
+      margin: 0;
+      color: white;
+      font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+
+    /* Menu */
+
+    .menu-right {
+      position: absolute;
+      top: 10%;
+      left: 10%;
+    }
+
+    .menu {
+        font-family: inherit;
+        letter-spacing: 3px;
+        font-weight: 600;
+        font-size: x-large;
+        position: relative;
+        cursor: pointer;
+        border-radius: 2px 2px 2px 2px;
+        text-align: right;
+        white-space: nowrap;
+    }
+
+    .mamba-logo {
+        width: 80px;
+        height: 40px;
+    }
+
+    .overlay {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: rgb(0,0,0);
+        background-color: rgba(0,0,0, 0.9);
+        overflow-x: hidden;
+        transition: 0.5s;
+    }           
+
+    .overlay-content {
+        position: relative;
+        top: 25%;
+        width: 100%;
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .overlay li, .overlay a {
+        padding: 8px;
+        text-decoration: none;
+        font-size: 28px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .overlay li:hover, .overlay li:focus, .overlay a:hover, .overlay a:focus {
+        color: rgba(255, 217, 0, 0.801);
+    }
+
+    #id {
+
+    }
+
+    .overlay .closebtn {
+        position: absolute;
+        top: 20px;
+        right: 45px;
+        font-size: 60px;
+    }
+
+    /* Home */
+
+    .entry-content {
+        overflow: hidden; 
+        height: 100%;
+    }
+    
+    .home{
+        background-image: url(https://img.wallpapersafari.com/desktop/1440/900/9/93/tKYi2p.jpg);
+        height: 100%; 
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        z-index: -1;
+        transition: all 5s;
+    }
+    .home:hover {
+        transform: scale(1.1);
+    }
+    #quote{
+      background-color: #f3ec78;
+      background-image: linear-gradient(45deg, #f3ec78, #af4261);
+      background-size: 100%;
+      -webkit-background-clip: text;
+      -moz-background-clip: text;
+      -webkit-text-fill-color: transparent; 
+      -moz-text-fill-color: transparent;
+      font-style: italic;
+      font-size: x-large;
+      width: 30%;
+      position: absolute;
+      top: 35%;
+      left: 15%;
+      line-height: 200%;
+    }
+
+    /* Our Sabers */
+
+    .our-sabers {
+      margin-top: 2%;
+      height: 100%;
+      overflow: auto;
+      background: url(https://starwarsblog.starwars.com/wp-content/uploads/2020/04/star-wars-backgrounds-25.jpg)
+      no-repeat center;
+      background-size: 100% 100%;
+    }
+            
+    .saber{
+      font-size: 1.4em;
+      width:60%;
+      margin:50px auto;
+      font-family:Open Sans;
+      font-style:italic;
+      color: #555555;
+      padding:0 30px 1.2em 75px;
+      border-left:8px solid rgba(255, 217, 0, 0.438);
+      position: relative;
+      background:#EDEDED;
+    }
+
+    .saber::before {
+      font-family:Arial;
+      content: "\201C";
+      color:rgb(97, 61, 131);
+      font-size:4em;
+    }
+
+    .saber::after{
+      content: '';
+    }
+
+    .saber span{
+      text-align: center;
+      display:block;
+      color:#333333;
+      font-style: normal;
+      font-weight: bold;
+      margin-top:1em;
+    }
+
+    button {
+      cursor: pointer;
+      color: rgb(97, 61, 131);
+      margin-left: 3%;
+      width: 75px;
+      height: 30px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="nav" class="overlay">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <ul class="overlay-content">
+        <li onclick="closeNav()"><a  href="#home">Home</a></li>
+        <li><input onchange="initLink()" id="age" placeholder="Enter your age first" autofocus/></li>
+        <li onclick="getSabers()"><a id="our-sabers-link" href="#">Our Sabers</a></li>
+    </div>
+  </div>
+
+  <div class="entry-content">
+      <div id="home" onmouseover="typeWriter()" class="home">
+          <div id="menu" class="menu-right">
+              <a href="#"><img class="mamba-logo" src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Star_Wars_Logo.svg" alt="logo" /></a>
+              <span class="menu" onclick="openNav()">
+                  MENU
+              </span>
+          </div>
+          <p id="quote"></p>
+      </div>
+  </div>
+
+
+  <div id="our-sabers" class="our-sabers" hidden>
+
+    {{#each sabers}}
+      <div class="saber">
+        Available at age {{this.available}} (F{{this.F}})<br>
+        Name: {{this.crystal.name}}, Color: {{this.crystal.color}}, Type: {{this.crystal.type}}, Price: <br>
+        Crystal
+        <span>{{this.name}}, {{this.crystal.fNeeded}}
+          <button data-available={{this.available}} data-id={{this.id}} onclick="orderSaber(this)">Order</button>
+        </span>
+      </div>
+      {{else}}
+      <div class="saber">
+        <span>There is no sabers available at the moment</span>
+      </div>
+    {{/each}}
+
+  </div>
+
+<script defer>
+
+  function openNav() {
+    document.getElementById("nav").style.width = "30%";
+  }
+
+  function closeNav() {
+    document.getElementById("nav").style.width = "0%";
+  }
+
+  function initLink() {
+    const age = document.getElementById('age')
+    if(age) document.getElementById('our-sabers-link').href = '#our-sabers';
+    else document.getElementById('our-sabers-link').href = '#';
+  }
+
+  function getSabers() {
+    let age = document.getElementById('age').value;
+    if(!age) {
+      alert('please enter your age first')
+      return
+    }
+
+    document.getElementById('our-sabers').style.display = "block";
+
+    closeNav();
+    document.getElementById('our-sabers').scrollIntoView();
+  }
+
+  async function orderSaber(e) {
+    const age = document.getElementById('age').value;
+    const available = e.dataset.available;
+    if(available > age && age < 18) {
+      alert('You are still young to order this Saber, please choose one available for your age.');
+      return
+    }
+
+    const saberId = e.dataset.id;
+    const rawResponse = await fetch('http://localhost:3000/Jedisabershop/order/saber', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({"id": saberId })
+    });
+
+    const content = await rawResponse.json();
+    
+    if(content.error) alert(content.error);
+    else alert(content.message + ' ' + content.lightsabername);
+  }
+
+  let i = 0;
+  let txt = 'Welcome to our saber webshop. Check the menu to see our sabers collection.';
+  let speed = 75;
+  function typeWriter() {
+    document.getElementById("menu").style.right =  "10%";
+    if (i < txt.length) {
+      document.getElementById("quote").innerHTML += txt.charAt(i);
+      i++;
+      setTimeout(typeWriter, speed);
+    }
+  }
+</script>
+</body>
+</html>
